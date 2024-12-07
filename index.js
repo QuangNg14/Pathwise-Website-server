@@ -9,8 +9,10 @@ const app = express();
 // Middleware for CORS
 const allowedOrigins = [
   "http://localhost:3000", // Local development frontend
+  "http://localhost:5001", // Local development backend
   "https://www.thepathwise.org", // Deployed frontend
   "https://pathwise-website-c55a.vercel.app", // Deployed frontend (Vercel link)
+  "https://pathwise-website-server.onrender.com", // Deployed backend
 ];
 
 const corsOptions = {
