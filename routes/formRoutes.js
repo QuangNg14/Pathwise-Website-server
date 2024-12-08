@@ -21,23 +21,12 @@ router.post("/submit", upload.single("resume"), async (req, res) => {
         .json({ success: false, message: "Resume file is required." });
     }
 
-    // Check if the file is a PDF or Word document
-    const allowedMimeTypes = [
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
-
-    if (!allowedMimeTypes.includes(req.file.mimetype)) {
-      console.error(
-        "Invalid file type. Only PDF and Word documents are allowed."
-      );
+    // Check if the file is a PDF
+    if (req.file.mimetype !== "application/pdf") {
+      console.error("Invalid file type. Only PDFs are allowed.");
       return res
         .status(400)
-        .json({
-          success: false,
-          message: "Only PDF and Word document files are allowed.",
-        });
+        .json({ success: false, message: "Only PDF files are allowed." });
     }
 
     console.log("File uploaded successfully:", req.file.path);
