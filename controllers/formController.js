@@ -1,7 +1,8 @@
-const Form = require("../models/Form");
-const s3 = require("../config/s3Config");
+const { PutObjectCommand } = require("@aws-sdk/client-s3");
 const fs = require("fs"); // For temporary file cleanup
 const path = require("path");
+const Form = require("../models/Form");
+const s3 = require("../config/s3Config");
 
 const uploadForm = async (formData, filePath) => {
   try {
@@ -18,15 +19,16 @@ const uploadForm = async (formData, filePath) => {
       ContentType: "application/pdf", // Explicitly define the content type
     };
 
-    // Upload the file to S3
-    const result = await s3.upload(uploadParams).promise();
+    // Create and send the PutObjectCommand
+    const command = new PutObjectCommand(uploadParams);
+    const result = await s3.send(command);
 
-    console.log("File uploaded to AWS S3:", result.Location);
+    console.log("File uploaded to AWS S3:", result);
 
     // Save form data to database
     const newForm = await Form.create({
       ...formData,
-      resumeUrl: result.Location, // Save the S3 file URL
+      resumeUrl: `https://${process.env.FILES_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uploadParams.Key}`, // Save the S3 file URL
     });
 
     console.log("Form data saved to database.");
