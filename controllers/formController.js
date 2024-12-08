@@ -4,7 +4,7 @@ const path = require("path");
 const Form = require("../models/Form");
 const s3 = require("../config/s3Config");
 
-const uploadForm = async (formData, filePath) => {
+const uploadForm = async (formData, filePath, mimeType) => {
   try {
     console.log("Uploading file to AWS S3...");
 
@@ -16,7 +16,7 @@ const uploadForm = async (formData, filePath) => {
       Bucket: process.env.FILES_BUCKET_NAME,
       Key: `resumes/${path.basename(filePath)}`, // Define the key for the file in S3
       Body: fileContent,
-      ContentType: "application/pdf", // Explicitly define the content type
+      ContentType: mimeType, // Dynamically set content type based on file MIME type
     };
 
     // Create and send the PutObjectCommand
