@@ -34,29 +34,6 @@ router.post("/submit", upload.single("resume"), async (req, res) => {
       });
     }
 
-    // Validate industry preference enum values
-    const validIndustries = [
-      "Investment Banking",
-      "Software Engineering",
-      "Data Engineering/Data Science/Machine Learning",
-      "Consulting",
-      "Finance (FP&A, corp fin, accounting,..)",
-      "Other",
-    ];
-
-    if (!validIndustries.includes(formData.industryPreference)) {
-      console.error(
-        "Invalid industry preference:",
-        formData.industryPreference
-      );
-      return res.status(400).json({
-        success: false,
-        message: `Invalid industry preference. Must be one of: ${validIndustries.join(
-          ", "
-        )}`,
-      });
-    }
-
     // Validate waitlist consideration enum values
     const validWaitlistOptions = ["No", "Yes"];
     if (!validWaitlistOptions.includes(formData.waitlistConsideration)) {
