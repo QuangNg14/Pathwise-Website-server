@@ -4,12 +4,7 @@ const formSchema = new mongoose.Schema(
   {
     fullName: { type: String, required: true },
     email: { type: String, required: true },
-    phoneNumber: { type: String, required: true },
-    location: {
-      type: String,
-      required: true,
-      enum: ["Vietnam", "USA", "Australia", "Singapore", "Other"],
-    },
+    phone: { type: String, required: true },
     school: { type: String, required: true },
     currentYear: {
       type: String,
@@ -24,19 +19,24 @@ const formSchema = new mongoose.Schema(
         "Software Engineering",
         "Data Engineering/Data Science/Machine Learning",
         "Consulting",
+        "Finance (FP&A, corp fin, accounting,..)",
         "Other",
       ],
     },
-    helpDescription: { type: String },
+    linkedin: { type: String, required: true },
     resumeUrl: { type: String, required: true },
-    questionsForUs: { type: String },
     waitlistConsideration: {
       type: String,
+      required: true,
       enum: ["No", "Yes"],
       default: "No",
     },
+    message: { type: String },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    strict: true,
+  }
 );
 
 module.exports = mongoose.model("Form", formSchema);

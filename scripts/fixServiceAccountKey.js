@@ -2,6 +2,15 @@ require("dotenv").config();
 
 function validateAndFixServiceAccountKey() {
   console.log("🔧 Google Service Account Key Validator & Fixer\n");
+  console.log(
+    "ℹ️  Note: This validator works with the updated Pathwise Mentorship form schema"
+  );
+  console.log(
+    "   Expected form fields: fullName, email, phone, school, currentYear,"
+  );
+  console.log(
+    "   industryPreference, linkedin, resumeUrl, waitlistConsideration, message\n"
+  );
 
   if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
     console.error(

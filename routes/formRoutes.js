@@ -13,6 +13,65 @@ router.post("/submit", upload.single("resume"), async (req, res) => {
     const formData = req.body;
     console.log("Form data received:", formData);
 
+    // Validate required fields - updated to match current schema
+    const requiredFields = [
+      "fullName",
+      "email",
+      "phone", // Changed from phoneNumber to phone
+      "school",
+      "currentYear",
+      "industryPreference",
+      "linkedin",
+      "waitlistConsideration",
+    ];
+
+    const missingFields = requiredFields.filter((field) => !formData[field]);
+    if (missingFields.length > 0) {
+      console.error("Missing required fields:", missingFields);
+      return res.status(400).json({
+        success: false,
+        message: `Missing required fields: ${missingFields.join(", ")}`,
+      });
+    }
+
+    // Validate industry preference enum values
+    const validIndustries = [
+      "Investment Banking",
+      "Software Engineering",
+      "Data Engineering/Data Science/Machine Learning",
+      "Consulting",
+      "Finance (FP&A, corp fin, accounting,..)",
+      "Other",
+    ];
+
+    if (!validIndustries.includes(formData.industryPreference)) {
+      console.error(
+        "Invalid industry preference:",
+        formData.industryPreference
+      );
+      return res.status(400).json({
+        success: false,
+        message: `Invalid industry preference. Must be one of: ${validIndustries.join(
+          ", "
+        )}`,
+      });
+    }
+
+    // Validate waitlist consideration enum values
+    const validWaitlistOptions = ["No", "Yes"];
+    if (!validWaitlistOptions.includes(formData.waitlistConsideration)) {
+      console.error(
+        "Invalid waitlist consideration:",
+        formData.waitlistConsideration
+      );
+      return res.status(400).json({
+        success: false,
+        message: `Invalid waitlist consideration. Must be one of: ${validWaitlistOptions.join(
+          ", "
+        )}`,
+      });
+    }
+
     // Check if file is present
     if (!req.file) {
       console.error("Resume file is missing.");

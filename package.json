@@ -8,7 +8,8 @@
     "dev": "nodemon server.js",
     "sync-sheets": "node scripts/syncToGoogleSheets.js",
     "test-connections": "node scripts/testConnection.js",
-    "fix-service-key": "node scripts/fixServiceAccountKey.js"
+    "fix-service-key": "node scripts/fixServiceAccountKey.js",
+    "migrate-forms": "node scripts/migrateFormData.js"
   },
   "author": "",
   "license": "ISC",

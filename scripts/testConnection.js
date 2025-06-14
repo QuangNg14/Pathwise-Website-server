@@ -14,6 +14,49 @@ async function testMongoDB() {
     const count = await Form.countDocuments();
     console.log(`📊 Found ${count} form submissions in database`);
 
+    // Test a sample query to verify schema
+    if (count > 0) {
+      const sampleForm = await Form.findOne().lean();
+      console.log("📋 Sample form fields:", Object.keys(sampleForm));
+
+      // Check if the form has the expected fields
+      const expectedFields = [
+        "fullName",
+        "email",
+        "phone",
+        "school",
+        "currentYear",
+        "industryPreference",
+        "linkedin",
+        "resumeUrl",
+        "waitlistConsideration",
+        "message",
+      ];
+      const actualFields = Object.keys(sampleForm).filter(
+        (key) =>
+          !key.startsWith("_") &&
+          key !== "createdAt" &&
+          key !== "updatedAt" &&
+          key !== "__v"
+      );
+      const missingFields = expectedFields.filter(
+        (field) => !actualFields.includes(field)
+      );
+      const extraFields = actualFields.filter(
+        (field) => !expectedFields.includes(field)
+      );
+
+      if (missingFields.length > 0) {
+        console.log(`⚠️  Missing expected fields: ${missingFields.join(", ")}`);
+      }
+      if (extraFields.length > 0) {
+        console.log(`ℹ️  Extra fields found: ${extraFields.join(", ")}`);
+      }
+      if (missingFields.length === 0 && extraFields.length === 0) {
+        console.log("✅ Form schema matches expected structure");
+      }
+    }
+
     await mongoose.connection.close();
     return true;
   } catch (error) {

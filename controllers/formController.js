@@ -7,6 +7,7 @@ const s3 = require("../config/s3Config");
 const uploadForm = async (formData, filePath) => {
   try {
     console.log("Uploading file to AWS S3...");
+    console.log("Form data received in controller:", formData);
 
     // Read the file content
     const fileContent = fs.readFileSync(filePath);
@@ -14,7 +15,7 @@ const uploadForm = async (formData, filePath) => {
     // Define S3 upload parameters
     const uploadParams = {
       Bucket: process.env.FILES_BUCKET_NAME,
-      Key: `resumes/${path.basename(filePath)}`, // Define the key for the file in S3
+      Key: `resumes/${Date.now()}-${path.basename(filePath)}`, // Add timestamp to avoid conflicts
       Body: fileContent,
       ContentType: "application/pdf", // Explicitly define the content type
     };
@@ -25,13 +26,30 @@ const uploadForm = async (formData, filePath) => {
 
     console.log("File uploaded to AWS S3:", result);
 
-    // Save form data to database
-    const newForm = await Form.create({
-      ...formData,
-      resumeUrl: `https://${process.env.FILES_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uploadParams.Key}`, // Save the S3 file URL
-    });
+    // Prepare form data object with explicit field mapping
+    const formDataToSave = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone, // Ensure this is phone, not phoneNumber
+      school: formData.school,
+      currentYear: formData.currentYear,
+      industryPreference: formData.industryPreference,
+      linkedin: formData.linkedin,
+      waitlistConsideration: formData.waitlistConsideration,
+      resumeUrl: `https://${process.env.FILES_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uploadParams.Key}`,
+    };
 
-    console.log("Form data saved to database.");
+    // Add message if provided
+    if (formData.message) {
+      formDataToSave.message = formData.message;
+    }
+
+    console.log("Prepared form data for database:", formDataToSave);
+
+    // Save form data to database with explicit field mapping
+    const newForm = await Form.create(formDataToSave);
+
+    console.log("Form data saved to database:", newForm);
 
     // Cleanup temporary file
     fs.unlinkSync(filePath);
@@ -39,6 +57,7 @@ const uploadForm = async (formData, filePath) => {
     return newForm;
   } catch (error) {
     console.error("Error during file upload or database save:", error.message);
+    console.error("Full error details:", error);
     throw new Error(error.message);
   }
 };

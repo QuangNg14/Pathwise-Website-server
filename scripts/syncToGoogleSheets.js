@@ -58,19 +58,18 @@ function formatDataForSheets(forms) {
     return [["No data available"]];
   }
 
-  // Define headers
+  // Define headers to match the new form structure
   const headers = [
     "Full Name",
     "Email",
-    "Phone Number",
-    "Location",
+    "Phone",
     "School",
     "Current Year",
     "Industry Preference",
-    "Help Description",
+    "LinkedIn",
     "Resume URL",
-    "Questions For Us",
     "Waitlist Consideration",
+    "Message",
     "Submitted At",
     "Updated At",
   ];
@@ -81,15 +80,14 @@ function formatDataForSheets(forms) {
       return [
         form.fullName || "",
         form.email || "",
-        form.phoneNumber || "",
-        form.location || "",
+        form.phone || "", // Updated field name
         form.school || "",
         form.currentYear || "",
         form.industryPreference || "",
-        form.helpDescription || "",
+        form.linkedin || "", // Added linkedin field
         form.resumeUrl || "",
-        form.questionsForUs || "",
         form.waitlistConsideration || "No",
+        form.message || "", // Added message field
         form.createdAt ? form.createdAt.toISOString() : "",
         form.updatedAt ? form.updatedAt.toISOString() : "",
       ];
@@ -104,7 +102,6 @@ function formatDataForSheets(forms) {
         form.fullName || "ERROR",
         form.email || "ERROR",
         "ERROR FORMATTING DATA",
-        "",
         "",
         "",
         "",
