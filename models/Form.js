@@ -14,14 +14,6 @@ const formSchema = new mongoose.Schema(
     industryPreference: {
       type: String,
       required: true,
-      enum: [
-        "Investment Banking",
-        "Software Engineering",
-        "Data Engineering/Data Science/Machine Learning",
-        "Consulting",
-        "Finance (FP&A, corp fin, accounting,..)",
-        "Other",
-      ],
     },
     linkedin: { type: String, required: true },
     resumeUrl: { type: String, required: true },
