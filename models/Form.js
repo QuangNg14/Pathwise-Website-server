@@ -16,6 +16,8 @@ const formSchema = new mongoose.Schema(
       required: true,
     },
     linkedin: { type: String, required: true },
+    leetcode: { type: String },
+    github: { type: String },
     resumeUrl: { type: String, required: true },
     waitlistConsideration: {
       type: String,

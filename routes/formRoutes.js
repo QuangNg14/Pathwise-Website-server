@@ -13,6 +13,11 @@ router.post("/submit", upload.single("resume"), async (req, res) => {
     const formData = req.body;
     console.log("Form data received:", formData);
 
+    // Sanitize optional fields
+    formData.leetcode = formData.leetcode || "";
+    formData.github = formData.github || "";
+    formData.message = formData.message || "";
+
     // Validate required fields - updated to match current schema
     const requiredFields = [
       "fullName",

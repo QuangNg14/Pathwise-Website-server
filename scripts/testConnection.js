@@ -28,6 +28,8 @@ async function testMongoDB() {
         "currentYear",
         "industryPreference",
         "linkedin",
+        "leetcode",
+        "github",
         "resumeUrl",
         "waitlistConsideration",
         "message",

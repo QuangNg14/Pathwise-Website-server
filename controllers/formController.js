@@ -35,6 +35,8 @@ const uploadForm = async (formData, filePath) => {
       currentYear: formData.currentYear,
       industryPreference: formData.industryPreference,
       linkedin: formData.linkedin,
+      leetcode: formData.leetcode || "",
+      github: formData.github || "",
       waitlistConsideration: formData.waitlistConsideration,
       resumeUrl: `https://${process.env.FILES_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uploadParams.Key}`,
     };

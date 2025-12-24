@@ -81,6 +81,18 @@ async function migrateFormData() {
           );
         }
 
+        if (!form.leetcode) {
+          setOperations.leetcode = "";
+          needsUpdate = true;
+          console.log(`📝 Adding empty leetcode field for form ${form._id}`);
+        }
+
+        if (!form.github) {
+          setOperations.github = "";
+          needsUpdate = true;
+          console.log(`📝 Adding empty github field for form ${form._id}`);
+        }
+
         if (!form.waitlistConsideration) {
           setOperations.waitlistConsideration = "No";
           needsUpdate = true;

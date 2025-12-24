@@ -67,6 +67,8 @@ function formatDataForSheets(forms) {
     "Current Year",
     "Industry Preference",
     "LinkedIn",
+    "Leetcode",
+    "Github",
     "Resume URL",
     "Waitlist Consideration",
     "Message",
@@ -85,6 +87,8 @@ function formatDataForSheets(forms) {
         form.currentYear || "",
         form.industryPreference || "",
         form.linkedin || "", // Added linkedin field
+        form.leetcode || "",
+        form.github || "",
         form.resumeUrl || "",
         form.waitlistConsideration || "No",
         form.message || "", // Added message field
@@ -260,7 +264,7 @@ async function formatSheet(sheets, actualSheetName) {
                 sheetId: sheetId,
                 dimension: "COLUMNS",
                 startIndex: 0,
-                endIndex: 13,
+                endIndex: 15,
               },
             },
           },
