@@ -9,7 +9,7 @@ const formSchema = new mongoose.Schema(
     currentYear: {
       type: String,
       required: true,
-      enum: ["Freshman", "Sophomore", "Junior", "Senior"],
+      enum: ["Freshman", "Sophomore", "Junior", "Senior", "Master"],
     },
     industryPreference: {
       type: String,
